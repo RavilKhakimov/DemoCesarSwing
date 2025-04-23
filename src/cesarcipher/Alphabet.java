@@ -1,3 +1,5 @@
+package cesarcipher;
+
 public class Alphabet {
     //массив кириллицы (заглавные и строчные символы) со знаками препинания
     private static final char[] ALPHABET_RU = {'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж',

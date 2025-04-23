@@ -1,3 +1,4 @@
+package cesarcipher;
 
 //Класс, реализующий функциональность шифра Цезаря и дешифровки
 public class Cipher {

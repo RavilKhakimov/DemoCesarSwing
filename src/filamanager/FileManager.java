@@ -1,4 +1,7 @@
+package filamanager;
+
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -9,10 +12,9 @@ public class FileManager {
     public List<String> readFile(String filePath) {// Логика чтения файла
         Path path = Paths.get(filePath);
         List<String> stringsReadFromText = new ArrayList<>();
-        try (FileReader fileReader = new FileReader(path.toFile());
-             BufferedReader reader = new BufferedReader(fileReader)) {
-            while (reader.ready()) {
-                String line = reader.readLine();
+        try (BufferedReader reader = Files.newBufferedReader(path)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
                 stringsReadFromText.add(line);
             }
         } catch (Exception e) {

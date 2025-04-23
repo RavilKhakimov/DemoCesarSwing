@@ -1,3 +1,9 @@
+import cesarcipher.Alphabet;
+import cesarcipher.BruteForce;
+import cesarcipher.Cipher;
+import cesarcipher.StatisticalAnalyzer;
+import filamanager.FileManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +30,11 @@ public class TestApp {
         int bruteForceDecrypted = bruteForce.decryptByBruteForce(encrypted, text);
         System.out.println("Раcшифрованный грубой силой key:");
         System.out.println(bruteForceDecrypted);
-        List<String> textFromFile = new ArrayList<>();
 
-        textFromFile = fileManager.readFile("Test.txt");
+        System.out.println("Current working directory: " + System.getProperty("user.dir"));
+
+        List<String> textFromFile = new ArrayList<>();
+        textFromFile = fileManager.readFile("src/texts/Test.txt");
         System.out.println("Строка считанного файла:");
         System.out.println(textFromFile.get(0));
 
@@ -38,7 +46,7 @@ public class TestApp {
         System.out.println("Зашифрованная строка для записи в файл:");
         System.out.println(encryptStrings.get(0));
 
-        fileManager.writeToFile("texts/TestToWrite.txt", encryptStrings);
+        fileManager.writeToFile("src/texts/TestToWrite.txt", encryptStrings);
 
          // Пример зашифрованного текста
 

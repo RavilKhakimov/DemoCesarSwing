@@ -1,3 +1,5 @@
+package cesarcipher;
+
 import java.util.ArrayList;
 
 //Реализация метода перебора всех ключей для взлома
@@ -7,7 +9,7 @@ public class BruteForce {
     public BruteForce(Alphabet alphabet) {
         this.alphabet = alphabet;
     }
-    // метод BruteForce принимает зашифрованный текст и исходный текст для сравнения, возвращает расшифрованный текст
+    // метод cesarcipher.BruteForce принимает зашифрованный текст и исходный текст для сравнения, возвращает расшифрованный текст
     public int decryptByBruteForce(String encryptedText, String inputText) {
         StringBuilder decryptText = new StringBuilder();
         ArrayList<String> decryptList = new ArrayList<>();

@@ -3,9 +3,17 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import cesarcipher.Cipher;
+import cesarcipher.Alphabet;
+import filamanager.FileManager;
 
 public class EncryptWindow implements Serializable {
+
+
     public EncryptWindow() {
+
     }
 
     void openEncryptWindow() {
@@ -75,7 +83,21 @@ public class EncryptWindow implements Serializable {
                 return;
             }
 
-            // Здесь добавьте логику шифровки с использованием inputPath, keyStr и outputPath
+            Alphabet Alphabet = new Alphabet();
+            Cipher cipher = new Cipher(Alphabet, Integer.parseInt(keyStr));
+            FileManager fileManager = new FileManager();
+
+            List<String> textFromFile = new ArrayList<>();
+            textFromFile = fileManager.readFile(inputPath);
+
+            List<String> encryptStrings = new ArrayList<>();
+
+            for (int i = 0; i < textFromFile.size() - 1; i++) {
+                encryptStrings.add(cipher.encrypt(textFromFile.get(i)));
+            }
+
+            fileManager.writeToFile(outputPath, encryptStrings);
+
             System.out.println("Шифровка:");
             System.out.println("Входной файл: " + inputPath);
             System.out.println("Ключ: " + keyStr);
