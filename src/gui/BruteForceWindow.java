@@ -3,6 +3,12 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import cesarcipher.Alphabet;
+import cesarcipher.BruteForce;
+import filamanager.FileManager;
 
 public class BruteForceWindow implements Serializable {
     public BruteForceWindow() {
@@ -19,9 +25,11 @@ public class BruteForceWindow implements Serializable {
 
         JLabel labelInput = new JLabel("Путь к зашифрованному файлу:");
         JTextField fieldInput = new JTextField(20);
+        fieldInput.setPreferredSize(new Dimension(200, 30));
 
-        JLabel labelOutput = new JLabel("Путь к выходному файлу:");
+        JLabel labelOutput = new JLabel("Путь к оригинальному файлу:");
         JTextField fieldOutput = new JTextField(20);
+        fieldOutput.setPreferredSize(new Dimension(200, 30));
 
         JButton btnStart = new JButton("Старт");
 
@@ -57,13 +65,22 @@ public class BruteForceWindow implements Serializable {
                 JOptionPane.showMessageDialog(frame, "Заполните все поля!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            Alphabet Alphabet = new Alphabet();
+            FileManager fileManager = new FileManager();
+            BruteForce bruteForce = new BruteForce(Alphabet);
+
+            List<String> textFromFile = fileManager.readFile(inputPath);
+            List<String> textOriginal = fileManager.readFile(outputPath);
+
+            int bruteForceDecryptedKey = bruteForce.decryptByBruteForce(textFromFile.get(0), textOriginal.get(0));
 
             // Логика брутфорса
             System.out.println("Брутфорс:");
-            System.out.println("Входной файл: " + inputPath);
-            System.out.println("Выходной файл: " + outputPath);
+            System.out.println("Зашифрованный файл: " + inputPath);
+            System.out.println("Оригинальный файл: " + outputPath);
+            System.out.println("Расшифрованный люч: " + bruteForceDecryptedKey);
 
-            JOptionPane.showMessageDialog(frame, "Брутфорс выполнен (заглушка).");
+            JOptionPane.showMessageDialog(frame, "Брутфорс выполнен. Расшифрованный люч: " + bruteForceDecryptedKey);
             frame.dispose();
         });
     }

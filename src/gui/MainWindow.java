@@ -59,23 +59,18 @@ public class MainWindow extends JFrame {
     }
 
     private void openEncryptWindow() {
-
         encryptWindow.openEncryptWindow();
     }
 
     private void openDecryptWindow() {
-        // Аналогично openEncryptWindow, только с полями для расшифровки
-
         openDecryptWindow.openDecryptWindow();
     }
 
     private void openBruteForceWindow() {
-
         bruteForceWindow.openBruteForceWindow();
     }
 
     private void openStatAnalysisWindow() {
-
         statAnalysisWindow.openStatAnalysisWindow();
     }
 }

@@ -3,6 +3,12 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import cesarcipher.Cipher;
+import cesarcipher.Alphabet;
+import filamanager.FileManager;
 
 public class DecryptWindow implements Serializable {
     public DecryptWindow() {
@@ -20,12 +26,15 @@ public class DecryptWindow implements Serializable {
 
         JLabel labelInput = new JLabel("Путь к зашифрованному файлу:");
         JTextField fieldInput = new JTextField(20);
+        fieldInput.setPreferredSize(new Dimension(200, 30));
 
         JLabel labelKey = new JLabel("Ключ шифра:");
         JTextField fieldKey = new JTextField(20);
+        fieldKey.setPreferredSize(new Dimension(200, 30));
 
         JLabel labelOutput = new JLabel("Путь к выходному файлу:");
         JTextField fieldOutput = new JTextField(20);
+        fieldOutput.setPreferredSize(new Dimension(200, 30));
 
         JButton btnStart = new JButton("Старт");
 
@@ -69,6 +78,20 @@ public class DecryptWindow implements Serializable {
                 JOptionPane.showMessageDialog(frame, "Заполните все поля!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
+            Alphabet Alphabet = new Alphabet();
+            Cipher cipher = new Cipher(Alphabet, Integer.parseInt(keyStr));
+            FileManager fileManager = new FileManager();
+
+            java.util.List<String> textFromFile = fileManager.readFile(inputPath);
+
+            List<String> dencryptStrings = new ArrayList<>();
+
+            for (int i = 0; i < textFromFile.size() - 1; i++) {
+                dencryptStrings.add(cipher.decrypt(textFromFile.get(i), Integer.parseInt(keyStr)));
+            }
+
+            fileManager.writeToFile(outputPath, dencryptStrings);
 
             // Добавьте логику расшифровки
             System.out.println("Расшифровка:");

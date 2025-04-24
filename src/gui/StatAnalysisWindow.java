@@ -3,6 +3,11 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import filamanager.FileManager;
+import cesarcipher.StatisticalAnalyzer;
 
 public class StatAnalysisWindow implements Serializable {
     public StatAnalysisWindow() {
@@ -19,9 +24,7 @@ public class StatAnalysisWindow implements Serializable {
 
         JLabel labelInputEncrypted = new JLabel("Путь к зашифрованному файлу:");
         JTextField fieldEncryptedInput = new JTextField(20);
-
-        JLabel labelInputReference = new JLabel("Путь к эталонному файлу:");
-        JTextField fieldReferenceInput = new JTextField(20);
+        fieldEncryptedInput.setPreferredSize(new Dimension(200, 30));
 
         JButton btnStart = new JButton("Старт");
 
@@ -35,12 +38,6 @@ public class StatAnalysisWindow implements Serializable {
         panel.add(fieldEncryptedInput, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 1;
-        panel.add(labelInputReference, gbc);
-        gbc.gridx = 1;
-        panel.add(fieldReferenceInput, gbc);
-
-        gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -52,19 +49,23 @@ public class StatAnalysisWindow implements Serializable {
 
         btnStart.addActionListener(e -> {
             String encryptedFilePath = fieldEncryptedInput.getText().trim();
-            String referenceFilePath = fieldReferenceInput.getText().trim();
 
-            if (encryptedFilePath.isEmpty() || referenceFilePath.isEmpty()) {
+            if (encryptedFilePath.isEmpty()) {
                 JOptionPane.showMessageDialog(frame, "Заполните все поля!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            FileManager fileManager = new FileManager();
+
+            List<String> textFromFile = fileManager.readFile(encryptedFilePath);
+
+            int key = StatisticalAnalyzer.breakCaesarCipher(textFromFile);
 
             // Логика статистического анализа
             System.out.println("Статистический анализ:");
             System.out.println("Зашифрованный файл: " + encryptedFilePath);
-            System.out.println("Эталонный файл: " + referenceFilePath);
 
-            JOptionPane.showMessageDialog(frame, "Статистический анализ выполнен (заглушка).");
+
+            JOptionPane.showMessageDialog(frame, "Статистический анализ выполнен. Найденный сдвиг: " + key);
             frame.dispose();
         });
     }

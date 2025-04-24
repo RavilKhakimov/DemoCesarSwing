@@ -1,5 +1,7 @@
 package cesarcipher;
 
+import java.util.List;
+
 //Для статистического анализа при расшифровке
 public class StatisticalAnalyzer {
     static Alphabet alphabet = new Alphabet();
@@ -61,20 +63,31 @@ public class StatisticalAnalyzer {
     public static double frequencyDistance(double[] freq1, double[] freq2) {
         double dist = 0;
         for (int i = 0; i < freq1.length; i++) {
-            double diff = freq1[i] - freq2[i];
-            dist += diff * diff;
+            double diff = Math.hypot(freq1[i], freq2[i]);
+            dist += diff;
         }
         return dist;
     }
 
-    public static int breakCaesarCipher(String cipherText) {
+    public static int breakCaesarCipher(List<String> cipherText) {
         double minDistance = Double.MAX_VALUE;
         int bestShift = 0;
+        String decrypted = null;
+        double[] freqText = new double[RUSSIAN_LETTER_FREQ.length];//процент букв во всем тексте в массиве
 
         for (int shift = 0; shift < RUSSIAN_LETTER_FREQ.length; shift++) {
-            String decrypted = decryptWithShift(cipherText, shift);
-            double[] freq = calculateLetterFrequencies(decrypted);
-            double dist = frequencyDistance(freq, RUSSIAN_LETTER_FREQ);
+            for (int i = 0; i < cipherText.size() - 1; i++) {
+                decrypted = decryptWithShift(cipherText.get(i), shift);
+                double[] freq = calculateLetterFrequencies(decrypted);//процент букв в каждой(одной) строке в массиве
+                for (int j = 0; j < freqText.length; j++) {
+                    freqText[j] = (freqText[j] +freq[j]);// Складываем i-й элемент массивов
+                }
+            }
+            for (int k = 0; k < freqText.length; k++) {
+                freqText[k] = (freqText[k] / (double)cipherText.size());
+            }
+
+            double dist = frequencyDistance(freqText, RUSSIAN_LETTER_FREQ);
             if (dist < minDistance) {
                 minDistance = dist;
                 bestShift = shift;

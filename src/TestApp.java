@@ -50,8 +50,7 @@ public class TestApp {
 
          // Пример зашифрованного текста
 
-        int key = StatisticalAnalyzer.breakCaesarCipher(encrypted);
-        System.out.println("Найденный сдвиг: " + key);
+
 
     }
 }
