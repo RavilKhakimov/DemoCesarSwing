@@ -24,7 +24,13 @@ public class Alphabet {
         return -1;
     }
     //метод возвращает размер массива(алфавита)
-    public int size() {
-            return ALPHABET_RU.length;
+    public static int size() {
+        return ALPHABET_RU.length;
         }
+
+    //метод возвращает алфавит
+    public static char[] getAlphabetRu() {
+        char[] AlphabetRu = ALPHABET_RU;
+        return AlphabetRu;
     }
+}

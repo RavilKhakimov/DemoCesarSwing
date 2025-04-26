@@ -1,5 +1,9 @@
 package cesarcipher;
 
+import exeptions.InvalidKeyException;
+import validation.Valid;
+
+
 //Класс, реализующий функциональность шифра Цезаря и дешифровки
 public class Cipher {
     private Alphabet alphabet;
@@ -8,6 +12,10 @@ public class Cipher {
     public Cipher(Alphabet alphabet, int shift) {
         this.alphabet = alphabet;
         this.shift = shift % alphabet.size();
+
+        if(!Valid.isValidKey(shift)){
+            throw new InvalidKeyException();
+        }
     }
     // метод шифрования по строкам, возвращает строку
     public String encrypt(String inputText) {

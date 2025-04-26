@@ -21,7 +21,7 @@ public class StatisticalAnalyzer {
             0.36, 0.04, 1.90, 1.74, 0.32,
             0.64, 2.01
     };
-
+    // метод расшифровки
     public static String decryptWithShift(String encryptedText, int shift) {
         StringBuilder decryptText = new StringBuilder();
         for (char c : encryptedText.toCharArray()){
@@ -35,7 +35,7 @@ public class StatisticalAnalyzer {
         }
         return decryptText.toString();
     }
-
+    // метод вычисляет процент по каждой букве в строке
     public static double[] calculateLetterFrequencies(String text) {
         double[] freq = new double[RUSSIAN_LETTER_FREQ.length];
         int totalLetters = 0;
@@ -59,7 +59,7 @@ public class StatisticalAnalyzer {
 
         return freq;
     }
-
+    // метод вычисляет "расстояние" между значениями
     public static double frequencyDistance(double[] freq1, double[] freq2) {
         double dist = 0;
         for (int i = 0; i < freq1.length; i++) {
@@ -68,26 +68,27 @@ public class StatisticalAnalyzer {
         }
         return dist;
     }
-
+    //главный метод статанализа, принимает список строк, сравнивает все возможные варианты расшифровки
+    //возвращает наиболее подходящий ключ
     public static int breakCaesarCipher(List<String> cipherText) {
         double minDistance = Double.MAX_VALUE;
         int bestShift = 0;
-        String decrypted = null;
+        String decrypted;
         double[] freqText = new double[RUSSIAN_LETTER_FREQ.length];//процент букв во всем тексте в массиве
 
         for (int shift = 0; shift < RUSSIAN_LETTER_FREQ.length; shift++) {
             for (int i = 0; i < cipherText.size() - 1; i++) {
-                decrypted = decryptWithShift(cipherText.get(i), shift);
-                double[] freq = calculateLetterFrequencies(decrypted);//процент букв в каждой(одной) строке в массиве
+                decrypted = decryptWithShift(cipherText.get(i), shift);// строка текста со сдвигом
+                double[] freq = calculateLetterFrequencies(decrypted);//массив с процентом букв в каждой(одной) строке
                 for (int j = 0; j < freqText.length; j++) {
-                    freqText[j] = (freqText[j] +freq[j]);// Складываем i-й элемент массивов
+                    freqText[j] = (freqText[j] + freq[j]);// Складываем i-й элемент массивов
                 }
             }
-            for (int k = 0; k < freqText.length; k++) {
+            for (int k = 0; k < freqText.length; k++) {// процент букв во всем тексте
                 freqText[k] = (freqText[k] / (double)cipherText.size());
             }
 
-            double dist = frequencyDistance(freqText, RUSSIAN_LETTER_FREQ);
+            double dist = frequencyDistance(freqText, RUSSIAN_LETTER_FREQ); // сравниваем с эталоном каждый вариант сдвига
             if (dist < minDistance) {
                 minDistance = dist;
                 bestShift = shift;

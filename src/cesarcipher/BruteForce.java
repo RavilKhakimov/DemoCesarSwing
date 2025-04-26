@@ -9,12 +9,12 @@ public class BruteForce {
     public BruteForce(Alphabet alphabet) {
         this.alphabet = alphabet;
     }
-    // метод cesarcipher.BruteForce принимает зашифрованный текст и исходный текст для сравнения, возвращает расшифрованный текст
+    // метод BruteForce принимает зашифрованный текст и исходный текст для сравнения, возвращает ключ
     public int decryptByBruteForce(String encryptedText, String inputText) {
         StringBuilder decryptText = new StringBuilder();
         ArrayList<String> decryptList = new ArrayList<>();
         int key = 0;
-        //каждый символ с зашифрованной строке смещает на все возможные значения ключа
+        //каждый символ с зашифрованной строке смещается на все возможные значения ключа
         //каждый вариант расшифрованной строки записывает в ArrayList строк
         for (int i = 1; i < alphabet.size(); i++) {
             for (char c : encryptedText.toCharArray()){

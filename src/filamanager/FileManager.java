@@ -7,9 +7,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-//Отвечает за чтение и запись файлов
+
 public class FileManager {
-    public List<String> readFile(String filePath) {// Логика чтения файла
+    public List<String> readFile(String filePath)  {// Логика чтения файла
         Path path = Paths.get(filePath);
         List<String> stringsReadFromText = new ArrayList<>();
         try (BufferedReader reader = Files.newBufferedReader(path)) {
@@ -17,12 +17,12 @@ public class FileManager {
             while ((line = reader.readLine()) != null) {
                 stringsReadFromText.add(line);
             }
-        } catch (Exception e) {
-            System.out.println("Something went wrong : " + e);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
         return stringsReadFromText;
     }
-    public void writeToFile(String filePath, List<String> stringsToWrite)  {// Логика чтения файла
+    public void writeToFile(String filePath, List<String> stringsToWrite)  {// запись в файл
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath))){
             for (String str : stringsToWrite) {
                 bufferedWriter.write(str);

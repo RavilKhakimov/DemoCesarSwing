@@ -31,7 +31,7 @@ public class MainWindow extends JFrame {
         JPanel panel = new JPanel(new GridLayout(6, 1, 10, 10));
         panel.setBackground(Color.lightGray);
         panel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
-
+        //инициализация элементов текст, кнопки
         JLabel jLabel = new JLabel("Выберете один из вариантов работы");
         Font font = new Font("Verdana", Font.BOLD, 16);
         jLabel.setFont(font);
@@ -40,7 +40,7 @@ public class MainWindow extends JFrame {
         JButton btnBruteForce = new JButton("3 БрудФорс");
         JButton btnStatAnalysis = new JButton("4 СтатАнализ");
         JButton btnExit = new JButton("5 Выход");
-
+        //добавление элементов текст, кнопки
         panel.add(jLabel);
         panel.add(btnEncrypt);
         panel.add(btnDecrypt);
@@ -50,7 +50,7 @@ public class MainWindow extends JFrame {
 
         add(panel);
 
-        // Обработчики кнопок
+        // Обработчики кнопок, логика при нажатии
         btnEncrypt.addActionListener(e -> encryptWindow.openEncryptWindow());
         btnDecrypt.addActionListener(e -> openDecryptWindow.openDecryptWindow());
         btnBruteForce.addActionListener(e -> bruteForceWindow.openBruteForceWindow());

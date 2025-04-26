@@ -9,6 +9,7 @@ import java.util.List;
 import cesarcipher.Alphabet;
 import cesarcipher.BruteForce;
 import filamanager.FileManager;
+import validation.Valid;
 
 public class BruteForceWindow implements Serializable {
     public BruteForceWindow() {
@@ -39,12 +40,14 @@ public class BruteForceWindow implements Serializable {
         gbc.gridx = 0;
         gbc.gridy = 0;
         panel.add(labelInput, gbc);
+
         gbc.gridx = 1;
         panel.add(fieldInput, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
         panel.add(labelOutput, gbc);
+
         gbc.gridx = 1;
         panel.add(fieldOutput, gbc);
 
@@ -61,10 +64,16 @@ public class BruteForceWindow implements Serializable {
         btnStart.addActionListener(e -> {
             String inputPath = fieldInput.getText().trim();
             String outputPath = fieldOutput.getText().trim();
+
             if (inputPath.isEmpty() || outputPath.isEmpty()) {
                 JOptionPane.showMessageDialog(frame, "Заполните все поля!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            if(!Valid.isFileExists(inputPath) | !Valid.isFileExists(outputPath)){
+                JOptionPane.showMessageDialog(frame, "Зашифрованный или оригинальный файл не существует", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             Alphabet Alphabet = new Alphabet();
             FileManager fileManager = new FileManager();
             BruteForce bruteForce = new BruteForce(Alphabet);
@@ -74,7 +83,6 @@ public class BruteForceWindow implements Serializable {
 
             int bruteForceDecryptedKey = bruteForce.decryptByBruteForce(textFromFile.get(0), textOriginal.get(0));
 
-            // Логика брутфорса
             System.out.println("Брутфорс:");
             System.out.println("Зашифрованный файл: " + inputPath);
             System.out.println("Оригинальный файл: " + outputPath);

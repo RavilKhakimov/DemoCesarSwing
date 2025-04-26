@@ -9,6 +9,8 @@ import java.util.List;
 import cesarcipher.Cipher;
 import cesarcipher.Alphabet;
 import filamanager.FileManager;
+import validation.Valid;
+import exeptions.InvalidKeyException;
 
 public class DecryptWindow implements Serializable {
     public DecryptWindow() {
@@ -44,18 +46,22 @@ public class DecryptWindow implements Serializable {
         gbc.gridx = 0;
         gbc.gridy = 0;
         panel.add(labelInput, gbc);
+
         gbc.gridx = 1;
         panel.add(fieldInput, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
         panel.add(labelKey, gbc);
+
         gbc.gridx = 1;
         panel.add(fieldKey, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 2;
+
         panel.add(labelOutput, gbc);
+
         gbc.gridx = 1;
         panel.add(fieldOutput, gbc);
 
@@ -78,12 +84,20 @@ public class DecryptWindow implements Serializable {
                 JOptionPane.showMessageDialog(frame, "Заполните все поля!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            if(!Valid.isValidKey(Integer.parseInt(keyStr))){
+                JOptionPane.showMessageDialog(frame, "Не подходящий ключ", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if(!Valid.isFileExists(inputPath) | !Valid.isFileExists(outputPath)){
+                JOptionPane.showMessageDialog(frame, "Файл для чтения или записи не существует", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             Alphabet Alphabet = new Alphabet();
             Cipher cipher = new Cipher(Alphabet, Integer.parseInt(keyStr));
             FileManager fileManager = new FileManager();
 
-            java.util.List<String> textFromFile = fileManager.readFile(inputPath);
+            List<String> textFromFile = fileManager.readFile(inputPath);
 
             List<String> dencryptStrings = new ArrayList<>();
 
@@ -93,13 +107,15 @@ public class DecryptWindow implements Serializable {
 
             fileManager.writeToFile(outputPath, dencryptStrings);
 
-            // Добавьте логику расшифровки
             System.out.println("Расшифровка:");
             System.out.println("Входной файл: " + inputPath);
             System.out.println("Ключ: " + keyStr);
             System.out.println("Выходной файл: " + outputPath);
 
-            JOptionPane.showMessageDialog(frame, "Расшифровка выполнена (заглушка).");
+            JOptionPane.showMessageDialog(frame, "Расшифровка выполнена.\n" +
+                    "Входной файл: " + inputPath + "\n" +
+                    "Ключ: " + keyStr + "\n" +
+                    "Выходной файл: " + outputPath);
             frame.dispose();
         });
     }

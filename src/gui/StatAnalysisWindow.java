@@ -8,6 +8,7 @@ import java.util.List;
 
 import filamanager.FileManager;
 import cesarcipher.StatisticalAnalyzer;
+import validation.Valid;
 
 public class StatAnalysisWindow implements Serializable {
     public StatAnalysisWindow() {
@@ -34,6 +35,7 @@ public class StatAnalysisWindow implements Serializable {
         gbc.gridx = 0;
         gbc.gridy = 0;
         panel.add(labelInputEncrypted, gbc);
+
         gbc.gridx = 1;
         panel.add(fieldEncryptedInput, gbc);
 
@@ -54,13 +56,17 @@ public class StatAnalysisWindow implements Serializable {
                 JOptionPane.showMessageDialog(frame, "Заполните все поля!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            if(!Valid.isFileExists(encryptedFilePath)){
+                JOptionPane.showMessageDialog(frame, "Зашифрованный файл не существует", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             FileManager fileManager = new FileManager();
 
             List<String> textFromFile = fileManager.readFile(encryptedFilePath);
 
             int key = StatisticalAnalyzer.breakCaesarCipher(textFromFile);
 
-            // Логика статистического анализа
             System.out.println("Статистический анализ:");
             System.out.println("Зашифрованный файл: " + encryptedFilePath);
 
