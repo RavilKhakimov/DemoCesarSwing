@@ -85,7 +85,7 @@ public class DecryptWindow implements Serializable {
                 JOptionPane.showMessageDialog(frame, "Заполните все поля!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            if(!Valid.isValidKey(Integer.parseInt(keyStr))){
+            if(!Valid.isNumeric(keyStr) || !Valid.isValidKey(Integer.parseInt(keyStr))){
                 JOptionPane.showMessageDialog(frame, "Не подходящий ключ", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 return;
             }

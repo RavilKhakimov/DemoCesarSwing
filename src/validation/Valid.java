@@ -13,8 +13,11 @@ public class Valid {
         }else{
             return false;
         }
-
     }
+    public static boolean isNumeric(String key) {
+        return key != null && key.matches("\\d+");
+    }
+
     public static boolean isFileExists(String filePath) {
         File file = new File(filePath);
        if (file.exists() && file.isFile()){
